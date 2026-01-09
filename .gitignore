@@ -208,5 +208,3 @@ __marimo__/
 
 .zen/
 zenml-env/
-src/
-zenml_pipeline.py
