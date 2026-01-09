@@ -1,0 +1,4 @@
+zenml
+zenml["local"]
+pandas
+scikit-learn
