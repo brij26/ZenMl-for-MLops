@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Iris Prediction App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .card {
+            background: white;
+            padding: 20px 30px;
+            border-radius: 8px;
+            width: 350px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            margin: 6px 0;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            background: #4f46e5;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        button:hover {
+            background: #4338ca;
+        }
+
+        .result {
+            margin-top: 15px;
+            text-align: center;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h2>Iris Prediction</h2>
+
+    <input type="number" step="any" id="sepal_length" placeholder="Sepal Length">
+    <input type="number" step="any" id="sepal_width" placeholder="Sepal Width">
+    <input type="number" step="any" id="petal_length" placeholder="Petal Length">
+    <input type="number" step="any" id="petal_width" placeholder="Petal Width">
+
+    <button onclick="predict()">Predict</button>
+
+    <div class="result" id="result"></div>
+</div>
+
+<script>
+async function predict() {
+    const data = {
+        sepal_length: parseFloat(document.getElementById("sepal_length").value),
+        sepal_width: parseFloat(document.getElementById("sepal_width").value),
+        petal_length: parseFloat(document.getElementById("petal_length").value),
+        petal_width: parseFloat(document.getElementById("petal_width").value),
+    };
+
+    const response = await fetch("http://127.0.0.1:8001/predict", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+    });
+
+    const result = await response.json();
+    console.log(result);
+
+    if (result.prediction === undefined) {
+        document.getElementById("result").innerText =
+            "Error: No prediction returned";
+        return;
+    }
+
+    const labelMap = {
+        0: "Setosa",
+        1: "Versicolor",
+        2: "Virginica"
+    };
+
+    document.getElementById("result").innerText =
+        "Prediction: " + labelMap[result.prediction];
+}
+</script>
+
+</body>
+</html>
