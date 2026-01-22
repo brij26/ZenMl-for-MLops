@@ -9,7 +9,7 @@ from src.model_evaluation import evaluate_model
 def training_pipeline():
     """Define the pipeline step"""
     df = load_data()
-    X_train, X_test, y_train, y_test = preprocess_data(df)
+    X_train, X_test, y_train, y_test, _ = preprocess_data(df)
     model = train_model(X_train, y_train)
     accuracy = evaluate_model(model, X_test, y_test)
 

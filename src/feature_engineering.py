@@ -7,7 +7,7 @@ from typing import Tuple, Annotated
 
 
 @step
-def preprocess_data(df: pd.DataFrame) -> Tuple[Annotated[np.ndarray, 'X_train'], Annotated[np.ndarray, 'X_test'], Annotated[pd.Series, 'y_train'], Annotated[pd.Series, 'y_test']]:
+def preprocess_data(df: pd.DataFrame) -> Tuple[Annotated[np.ndarray, 'X_train'], Annotated[np.ndarray, 'X_test'], Annotated[pd.Series, 'y_train'], Annotated[pd.Series, 'y_test'], Annotated[StandardScaler, 'Scaler']]:
     """Split and preprocess the data"""
     X = df.drop('target', axis=1)
     y = df['target']
@@ -18,4 +18,4 @@ def preprocess_data(df: pd.DataFrame) -> Tuple[Annotated[np.ndarray, 'X_train'],
     X_train_scaled = scaler.fit_transform(X_train)
     X_test_scaled = scaler.transform(X_test)
 
-    return X_train_scaled, X_test_scaled, y_train, y_test
+    return X_train_scaled, X_test_scaled, y_train, y_test, scaler
